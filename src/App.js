@@ -1,24 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+import './App.scss';
+import { useState, useEffect } from 'react';
+import AccountsManagers from './components/AccountsManagers/AccountsManagers';
+import Accounts from './components/Accounts/Accounts';
+import accounts from './dataCenter/accounts';
+import accountMamagersData from './dataCenter/accountsManagers';
+import * as utils from './utils/utils';
 
 function App() {
+
+  const [accountsManagersMap, setAcountsManagersMap] = useState({});
+  const  [accountsManagersList, setAccountsManagersList] = useState([]);
+  const  [accountsList, setAccountsList] = useState([]);
+  const  [selectedAccountsManagerId, setSelectedAccountsManagerId] = useState();
+
+  useEffect(() => {
+    let _acountsManagersMap = utils.createAccountsManagersMap(accountMamagersData);
+    utils.addEmployeesUnderaccountsManagers(_acountsManagersMap, accountMamagersData);
+    console.log(_acountsManagersMap);
+    setAcountsManagersMap(_acountsManagersMap);
+    setAccountsManagersList(accountMamagersData);
+    setAccountsList(accounts);
+  }, []);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <AccountsManagers 
+        accountsManagersMap={accountsManagersMap}
+        accountsManagersList={accountsManagersList}
+        onSelectRowHadler={(accountsManagerId) => {
+          return setSelectedAccountsManagerId(accountsManagerId)
+        }}>
+      </AccountsManagers>
+    
+      <Accounts 
+        accountsList={accountsList}
+        accountsManagersMap={accountsManagersMap}
+        selectedAccountsManagerId={selectedAccountsManagerId}>
+      </Accounts>
+    </>
+
   );
 }
 
