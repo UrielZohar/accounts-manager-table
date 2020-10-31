@@ -31,7 +31,8 @@ const reducer = (state = initialState, action) => {
             let accountsManagersMarkedMap = {};
             acountsManagersMap[action.data.selectedAccountsManagerId]?.employeesList?.forEach(employeeId => {
                 accountsManagersMarkedMap[employeeId] = true;
-            })
+            });
+            accountsManagersMarkedMap[action.data.selectedAccountsManagerId] = true;
 			return {
                 ...state,
                 selectedAccountsManagerId: action.data.selectedAccountsManagerId,
