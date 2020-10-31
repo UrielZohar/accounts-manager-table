@@ -1,15 +1,17 @@
-//import logo from './logo.svg';
+import { useSelector, useDispatch } from 'react-redux'
 import './AccountsManagers.scss';
-import { useState } from 'react';
 
-
-function AccountsManagers({ 
-  accountsManagersList,
-  accountsManagersMap,
-  onSelectRowHadler
-}) {
-
-  const [selectedAccountsManagerId, setSelectedAccountsManagerId] = useState();
+function AccountsManagers() {
+  const dispatch = useDispatch()
+  const accountsManagersList = useSelector(state => state.accountsManagersList)
+  const selectedAccountsManagerId = useSelector(state => state.selectedAccountsManagerId)
+  const accountsManagersMarkedMap = useSelector(state => state.accountsManagersMarkedMap)
+  const onRowClickHandler = (selectedAccountsManagerId) => {
+    dispatch({
+      type: 'ACCOUNTS_MANAGER_CLICKED',
+      data: { selectedAccountsManagerId }
+    })
+  }
   return (
     <table id="accountManagers">
       <thead>
@@ -22,16 +24,15 @@ function AccountsManagers({
       <tbody>
         {accountsManagersList.map(employee => {
           return (
-            <tr key={employee.id}
+            <tr 
+              key={employee.id}
               onClick={() => {
-                setSelectedAccountsManagerId(employee.id);
-                onSelectRowHadler(employee.id);
+                onRowClickHandler(employee.id);
               }}
               className={
-                `${(selectedAccountsManagerId === employee.id) ? 'selected-row' : ''} 
-                ${(accountsManagersMap[selectedAccountsManagerId]?.employeesList?.indexOf(employee.id) > -1) ? 'marked-row' : ''}`
-              }
-            >
+                `${(selectedAccountsManagerId === employee.id) ? 'selected-row' : ''}
+                ${accountsManagersMarkedMap[employee.id] ? 'marked-row' : ''}`
+              }>
               <td>
                 {employee.id}
               </td>
@@ -39,7 +40,7 @@ function AccountsManagers({
                 {employee.name}
               </td>
               <td>
-                {accountsManagersMap[employee.directManager]?.name}
+                {employee.directManagerName}
               </td>
             </tr>)
         })}

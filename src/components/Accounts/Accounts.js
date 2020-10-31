@@ -1,9 +1,8 @@
+import { useSelector } from 'react-redux'
 
-function Accounts({
-  accountsList,
-  selectedAccountsManagerId,
-  accountsManagersMap
-}) {
+function Accounts() {
+  const accountsList = useSelector(state => state.accountsList)
+  const selectedAccountsManagerId = useSelector(state => state.selectedAccountsManagerId)
 
   return (
     <table>
@@ -31,7 +30,7 @@ function Accounts({
                 {account.name}
               </td>
               <td>
-                {accountsManagersMap[account.accountManager].name}
+                {account.accountManagerName}
               </td>
               <td>
                 {account.status}

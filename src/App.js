@@ -1,44 +1,22 @@
-// import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux'
 import './App.scss';
-import { useState, useEffect } from 'react';
 import AccountsManagers from './components/AccountsManagers/AccountsManagers';
 import Accounts from './components/Accounts/Accounts';
-import accounts from './dataCenter/accounts';
-import accountMamagersData from './dataCenter/accountsManagers';
-import * as utils from './utils/utils';
 
 function App() {
-
-  const [accountsManagersMap, setAcountsManagersMap] = useState({});
-  const  [accountsManagersList, setAccountsManagersList] = useState([]);
-  const  [accountsList, setAccountsList] = useState([]);
-  const  [selectedAccountsManagerId, setSelectedAccountsManagerId] = useState();
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    let _acountsManagersMap = utils.createAccountsManagersMap(accountMamagersData);
-    utils.addEmployeesUnderaccountsManagers(_acountsManagersMap, accountMamagersData);
-    console.log(_acountsManagersMap);
-    setAcountsManagersMap(_acountsManagersMap);
-    setAccountsManagersList(accountMamagersData);
-    setAccountsList(accounts);
+    dispatch({ type: 'INIT_DATA' })
   }, []);
   return (
     <>
-      <AccountsManagers 
-        accountsManagersMap={accountsManagersMap}
-        accountsManagersList={accountsManagersList}
-        onSelectRowHadler={(accountsManagerId) => {
-          return setSelectedAccountsManagerId(accountsManagerId)
-        }}>
+      <AccountsManagers>
       </AccountsManagers>
-    
-      <Accounts 
-        accountsList={accountsList}
-        accountsManagersMap={accountsManagersMap}
-        selectedAccountsManagerId={selectedAccountsManagerId}>
+      <Accounts>
       </Accounts>
     </>
-
   );
 }
 

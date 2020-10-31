@@ -32,3 +32,29 @@ export const addEmployeesUnderaccountsManagers = (accountsManagersMap, accountsM
         }
     })
 }
+
+/**
+ * Update manager name attribute to each item in the 
+ * accoumts managers list
+ * @param {List of accounts managers} accountsManagersList
+ * @return {map of accounts managers}
+ */
+export const addManagerNameAttribute = (accountsManagersMap, accountsManagersList) => {
+    accountsManagersList.forEach(employee => {
+        if (employee.directManager) {
+            employee.directManagerName = accountsManagersMap[employee.directManager].name;
+        }
+    })
+}
+
+/**
+ * Update account manager name attribute to each item in the 
+ * accoumts list
+ * @param {List of accounts managers} accountsManagersList
+ * @return {map of accounts managers}
+ */
+export const addAccountManagerNameAttribute = (accountsManagersMap, accountsList) => {
+    accountsList.forEach((account) => {
+        account.accountManagerName = accountsManagersMap[account.accountManager].name;
+    });
+}
